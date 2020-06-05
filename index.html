@@ -1,0 +1,28 @@
+<html>
+<head></head>
+<body style="color: white; background-color: black;">
+	<div style="display: flex; width: 1040px">
+		<div style="position: relative; left: 0px;"><span id="playerName">Player</span> Score: <span id="playerScoreLabel">0</span></div>
+	</div>
+	<div style="display: flex">
+		<canvas id="gameCanvas" width="1040" height="720"></canvas>
+		<div style="margin-left: 20px;">
+			<h3>Controls:</h3>
+			<span id="playerNameControls">Player</span>: 
+			<ul>
+				<li>Up Arrow - Gas</li>
+				<li>Down Arrow - Break/Reverse</li>
+				<li>Left Arrow - Turn Left</li>
+				<li>Right Arrow - Turn Right</li>
+			</ul>
+		</div>
+	</div>
+	<p	id="debugText"></p>
+	<script src="js/player.js"></script>
+	<script src="js/graphics-common.js"></script>
+	<script src="js/input.js"></script>
+	<script src="js/world.js"></script>
+	<script src="js/assets-loading.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>
