@@ -1,76 +1,73 @@
+const TILE_W = 50;
+const TILE_H = 50;
 
+const	TILE_CODE_GROUND = 0;
+const	TILE_CODE_WALL = 1;
+const	TILE_CODE_PLAYER = 2;
+const	TILE_CODE_CHEST = 3;
+const	TILE_CODE_DOOR = 4;
+const	TILE_CODE_KEY = 5;
 
-const TRACK_W = 40;
-const TRACK_H = 40;
-const TRACK_GAP = 1;
-const TRACK_COLS = 26;
-const TRACK_ROWS = 18;
-const	TRACK_CODE_ROAD = 0;
-const	TRACK_CODE_WALL = 1;
-const	TRACK_CODE_PLAYER = 2;
-const	TRACK_CODE_FINISH = 3;
-const	TRACK_CODE_MOUNTAIN = 4;
-const	TRACK_CODE_TREES = 5;
-const	TRACK_CODE_LAKE = 6;
-const	TRACK_CODE_FLAG = 7;
+const ROOM_COLS = 20;
+const ROOM_ROWS = 14;
 
-var trackGrid = 
-[	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,  1,  1, 	1,	1,  1,  1, 	1,	1,	4,
-  1,	2,	0,	0,	0,	0,	0,	0,	5,	5,	5,	0,	0,	0,	0,	0,	0,  0,	5,  5,	5,  0,	0,  0,	1,	1,
-  1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,  0,	0,  5,	0,  0,	0,  0,	0,	1,
-  1,	0,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	5,	5,	5,	0,  0,	0,  0,	0,  0,	0,  0,	0,	1,
-  1,	0,	0,	1,	1,	1,	1,	1,	0,	0,	0,	1,	1,	1,	5,	1,	1,  1,	0,  0,	0,  1,	1,  0,	0,	1,
-  1,	0,	0,	1,	5,	1,	1,	1,	1,	1,	1,	1,	1,	1,	5,	6,	6,  1,	1,  1,	1,  1,	1,  0,	0,	1,
-  1,	0,	0,	1,	1,	1,	0,	0,	1,	1,	1,	0,	0,	5,	6,	6,	6,  6,	6,  6,	6,  1,	0,  0,	0,	1,
-  1,	0,	0,	1,	1,	0,	0,	0,	0,	1,	0,	0,	0,	0,	5,	1,	1,  1,	1,  1,	1,  1,	0,  0,	0,	1,
-  1,	0,	0,	1,	0,	0,	0,	0,	0,	5,	0,	0,	0,	0,	0,	0,	0,  0,	0,  5,	1,  0,	0,  0,	7,	1,
-  1,	0,	0,  7,	0,	0,	0,	0,	0,	5,	0,	0,	0,	0,	0,	0,	0,  0,	0,  0,	1,  0,	0,  0,	1,	1,
-  1,	0,	0,	0,	0,	0,	7,	0,	0,	5,	0,	0,	7,	0,	5,	5,	5,  7,	0,  0,	1,  1,	0,  0,	1,	1,
-  1,	1,	0,	0,	0,	0,	1,	0,	0,	5,	0,	0,	5,	5,	5,	5,	0,  0,	0,	0,	0,  1,	0,  0,	5,	1,
-  6,	1,	1,	0,	0,	1,	1,	0,	0,	5,	0,	0,	0,	1,	5,	0,	0,  0,	0,	0,	0,  1,	0,  0,	5,	1,
-  6,	6,	1,	5,	5,	1,	5,	0,	0,	5,	7,	0,	0,	1,	0,	0,	0,  7,	5,  5,	5,  1,	0,  0,	5,	1,
-  6,	6,	1,	5,	5,	1,	5,	0,	0,	0,	0,	0,	0,	1,	0,	0,	0,  0,	0,  0,	0,  7,	0,  0,	5,	1,
-  6,	6,	1,	1,	1,	1,	5,	5,	0,	0,	0,	0,	5,	1,	0,	0,	0,  0,	0,  0,	0,  0,	0,  0,	1,	1,
-  6,	6,	1,	1,	1,	1,	5,	5,	5,	5,	5,	5,	5,	1,	1,	1,	0,  0,	0,  7,	0,  0,	0,  0,	1,	1,
-  6,	6,	6,	6,	6,	6,	6,	5,	5,	5,	5,	5,	5,	5,	1,	1,	1,  1,	1,  1,	1,  1,	1,  1,	1,	4];
+let roomGrid = 
+[	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,  1,  1, 	1,
+  1,	2,	0,	0,	0,	0,	0,	0,	5,	5,	5,	0,	0,	0,	0,	0,	0,  0,	5,  1,
+  1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,  0,	0,  1,
+  1,	0,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	5,	5,	5,	0,  0,	0,  1,
+  1,	0,	0,	1,	1,	1,	1,	1,	0,	0,	0,	1,	1,	1,	5,	1,	1,  1,	0,  1,
+  1,	0,	0,	1,	5,	1,	1,	1,	1,	1,	1,	1,	1,	1,	5,	4,	4,  1,	1,  1,
+  1,	0,	0,	1,	1,	1,	0,	0,	1,	1,	1,	0,	0,	5,	4,	4,	4,  4,	4,  1,
+  1,	0,	0,	1,	1,	0,	0,	0,	0,	1,	0,	0,	0,	0,	5,	1,	1,  1,	1,  1,
+  1,	0,	0,	1,	0,	0,	0,	0,	0,	5,	0,	0,	0,	0,	0,	0,	0,  0,	0,  1,
+  1,	0,	0,  5,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,  0,	0,  1,
+  1,	0,	0,	0,	0,	0,	5,	0,	0,	0,	0,	0,	5,	0,	5,	5,	5,  5,	0,  1,
+  1,	1,	0,	0,	0,	0,	1,	0,	0,	5,	0,	0,	5,	5,	5,	5,	0,  0,	0,	1,
+  1,	1,	1,	0,	0,	1,	1,	0,	0,	5,	0,	0,	0,	1,	5,	0,	0,  0,	3,	1,
+  1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,  1,	1,  1];
 
   function isWallAtGridCoordinates(row, col) {
-    var trackIndex = trackGridCoordinatesToIndex(row, col);
-    return (trackGrid[trackIndex] == TRACK_CODE_WALL);
+    var tileIndex = tileGridCoordinatesToIndex(row, col);
+    return (roomGrid[tileIndex] == TILE_CODE_WALL);
   }
   
-  function trackGridCoordinatesToIndex(row, col) {
-    return col + TRACK_COLS * row;
+  function tileGridCoordinatesToIndex(row, col) {
+    return col + ROOM_COLS * row;
   }
   
-  function getTrackCodeAtPixelCoordinates(x, y) {
-    var col = Math.floor(x/TRACK_W);
-    var row = Math.floor(y/TRACK_H);
+  function getTileCodeAtPixelCoordinates(x, y) {
+    var col = Math.floor(x/TILE_W);
+    var row = Math.floor(y/TILE_H);
   
-    // outside the track area - don't do anything
-    if (col < 0 || col >= TRACK_COLS || row < 0 || row >= TRACK_ROWS) 
-      return TRACK_CODE_WALL;
+    // outside the grid area - don't do anything
+    if (col < 0 || col >= ROOM_COLS || row < 0 || row >= ROOM_ROWS) 
+      return TILE_CODE_WALL;
   
-    var trackIndex = trackGridCoordinatesToIndex(row, col);
-    return trackGrid[trackIndex];
+    var tileIndex = tileGridCoordinatesToIndex(row, col);
+    return roomGrid[tileIndex];
   }
 
-  function drawWorld()	{
-    var trackIndex = 0;
-    var trackX;
-    var trackY = 0.5*TRACK_H;
-    var trackType;
+  function drawRoom()	{
+    var tileIndex = 0;
+    var tileX;
+    var tileY = 0.5*TILE_H;
+    var tileType;
     
-    for (var i=0;	i<TRACK_ROWS;	i++) {
-      trackX = 0.5*TRACK_W;
-      for (var j=0;	j<TRACK_COLS;	j++) {
-        trackType = trackGrid[trackIndex];
-        drawImageCenteredAtLocationWithScaling(trackPics[trackType], trackX,	trackY, TRACK_W, TRACK_H);
+    for (var i=0;	i<ROOM_ROWS;	i++) {
+      tileX = 0.5*TILE_W;
+      for (var j=0;	j<ROOM_COLS;	j++) {
+        tileType = roomGrid[tileIndex];
+        if (tileType === TILE_CODE_KEY) {
+          drawImageCenteredAtLocationWithScalingAndBackground(tilePics[tileType], tilePics[TILE_CODE_GROUND], tileX,	tileY, TILE_W, TILE_H);
+        } else {
+          drawImageCenteredAtLocationWithScaling(tilePics[tileType], tileX,	tileY, TILE_W, TILE_H);
+        }
 
-        trackIndex++;
+        tileIndex++;
         
-        trackX += TRACK_W;
+        tileX += TILE_W;
       }
-      trackY += TRACK_H;
+      tileY += TILE_H;
     }
   }

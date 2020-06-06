@@ -1,31 +1,29 @@
 var playerPic = new Image();
-var trackPics = [];
+var tilePics = [];
 
 var imagesToLoad = 0;
 
-function loadImageForTrackCode(trackCode, fileName) {
-  trackPics[trackCode] = new Image();
-  beginLoadingImage(trackPics[trackCode], fileName);
+function loadImageForTileCode(tileCode, fileName) {
+  tilePics[tileCode] = new Image();
+  beginLoadingImage(tilePics[tileCode], fileName);
 }
 
 function loadImages() {
   var	imageList	=	[
     {imgNode:playerPic,	fileName:"player.png"},
     
-		{trackCode:TRACK_CODE_WALL,	fileName:"wall.png"},
-		{trackCode:TRACK_CODE_ROAD,	fileName:"floor.png"},
-		{trackCode:TRACK_CODE_FINISH,	fileName:"finish.png"},
-		{trackCode:TRACK_CODE_MOUNTAIN,	fileName:"mountain.png"},
-		{trackCode:TRACK_CODE_TREES,	fileName:"trees.png"},
-		{trackCode:TRACK_CODE_LAKE,	fileName:"lake.png"},
-		{trackCode:TRACK_CODE_FLAG,	fileName:"flag.png"}
+		{tileCode:TILE_CODE_WALL,	fileName:"wall.png"},
+		{tileCode:TILE_CODE_GROUND,	fileName:"ground.png"},
+		{tileCode:TILE_CODE_CHEST,	fileName:"chest.png"},
+		{tileCode:TILE_CODE_DOOR,	fileName:"door.png"},
+		{tileCode:TILE_CODE_KEY,	fileName:"key.png"}
     ];
     
   imagesToLoad = imageList.length;
 
   for (img of imageList) {
-    if (img.trackCode !== undefined) {
-      loadImageForTrackCode(img.trackCode, img.fileName);
+    if (img.tileCode !== undefined) {
+      loadImageForTileCode(img.tileCode, img.fileName);
     } else {
       beginLoadingImage(img.imgNode,img.fileName);
     }    

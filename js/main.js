@@ -54,7 +54,7 @@ function draw() {
   //   return;
   // } 
 
-  drawWorld();
+  drawRoom();
 
   // player
   player.draw();
