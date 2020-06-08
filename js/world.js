@@ -34,16 +34,16 @@ let roomGrid =
     return col + ROOM_COLS * row;
   }
   
-  function getTileCodeAtPixelCoordinates(x, y) {
+  function getTileIndexAtPixelCoordinates(x, y) {
     var col = Math.floor(x/TILE_W);
     var row = Math.floor(y/TILE_H);
   
     // outside the grid area - don't do anything
     if (col < 0 || col >= ROOM_COLS || row < 0 || row >= ROOM_ROWS) 
-      return TILE_CODE_WALL;
+      return undefined;
   
     var tileIndex = tileGridCoordinatesToIndex(row, col);
-    return roomGrid[tileIndex];
+    return tileIndex;
   }
 
   function tileTypeHasTransparency(tileType) {

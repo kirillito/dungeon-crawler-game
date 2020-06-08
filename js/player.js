@@ -7,6 +7,7 @@ class Player {
     this.startY;
     this.x;
     this.y;
+    this.keys;
 
     this.keyHeld_North = false;
     this.keyHeld_East = false;
@@ -41,6 +42,7 @@ class Player {
     }
     this.x = this.startX;
     this.y = this.startY;
+    this.keys = 0;
   }
 
   move() {
@@ -60,10 +62,34 @@ class Player {
       nextX -= this.PLAYER_MOVE_SPEED;
     }
 
-    var nextTileCode = getTileCodeAtPixelCoordinates(nextX, nextY);
-    if (nextTileCode === TILE_CODE_GROUND) {
-      this.x = nextX;
-      this.y = nextY;
+    var nextTileIndex = getTileIndexAtPixelCoordinates(nextX, nextY);
+    var nextTileCode = TILE_CODE_WALL;
+    
+    if (nextTileIndex !== undefined) {
+      nextTileCode = roomGrid[nextTileIndex];
+    }
+
+    switch (nextTileCode) {
+      case TILE_CODE_GROUND:
+        this.x = nextX;
+        this.y = nextY;       
+        break;
+      case TILE_CODE_CHEST:
+        this.reset();
+        break;
+      case TILE_CODE_KEY:
+        this.keys++;
+        roomGrid[nextTileIndex] = TILE_CODE_GROUND;
+        break;
+      case TILE_CODE_DOOR:
+        if (this.keys > 0) {
+          this.keys--;
+          roomGrid[nextTileIndex] = TILE_CODE_GROUND;
+        }
+        break;
+      case TILE_CODE_WALL:
+      default:
+        break;
     }
   }
 

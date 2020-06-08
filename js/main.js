@@ -61,4 +61,5 @@ function draw() {
 
   // canvasContext.fillStyle = 'white';
   // canvasContext.fillText("Score: " + playerScore, canvas.width - 100, 10)
+  document.getElementById("playerKeysLabel").innerHTML = player.keys;
 }
