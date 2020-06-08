@@ -26,11 +26,3 @@ function drawImageCenteredAtLocationWithScaling(graphic, x, y, width, height) {
   canvasContext.drawImage(graphic,-width/2,-height/2, width, height);
   canvasContext.restore();
 }
-
-function drawImageCenteredAtLocationWithScalingAndBackground(graphic, background, x, y, width, height) {
-  canvasContext.save();
-  canvasContext.translate(x,y);
-  canvasContext.drawImage(background,-width/2,-height/2, width, height);
-  canvasContext.drawImage(graphic,-width/2,-height/2, width, height);
-  canvasContext.restore();
-}

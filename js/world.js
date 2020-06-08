@@ -8,24 +8,22 @@ const	TILE_CODE_CHEST = 3;
 const	TILE_CODE_DOOR = 4;
 const	TILE_CODE_KEY = 5;
 
-const ROOM_COLS = 20;
-const ROOM_ROWS = 14;
+const ROOM_COLS = 18;
+const ROOM_ROWS = 12;
 
 let roomGrid = 
-[	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,  1,  1, 	1,
-  1,	2,	0,	0,	0,	0,	0,	0,	5,	5,	5,	0,	0,	0,	0,	0,	0,  0,	5,  1,
-  1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,  0,	0,  1,
-  1,	0,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	5,	5,	5,	0,  0,	0,  1,
-  1,	0,	0,	1,	1,	1,	1,	1,	0,	0,	0,	1,	1,	1,	5,	1,	1,  1,	0,  1,
-  1,	0,	0,	1,	5,	1,	1,	1,	1,	1,	1,	1,	1,	1,	5,	4,	4,  1,	1,  1,
-  1,	0,	0,	1,	1,	1,	0,	0,	1,	1,	1,	0,	0,	5,	4,	4,	4,  4,	4,  1,
-  1,	0,	0,	1,	1,	0,	0,	0,	0,	1,	0,	0,	0,	0,	5,	1,	1,  1,	1,  1,
-  1,	0,	0,	1,	0,	0,	0,	0,	0,	5,	0,	0,	0,	0,	0,	0,	0,  0,	0,  1,
-  1,	0,	0,  5,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,  0,	0,  1,
-  1,	0,	0,	0,	0,	0,	5,	0,	0,	0,	0,	0,	5,	0,	5,	5,	5,  5,	0,  1,
-  1,	1,	0,	0,	0,	0,	1,	0,	0,	5,	0,	0,	5,	5,	5,	5,	0,  0,	0,	1,
-  1,	1,	1,	0,	0,	1,	1,	0,	0,	5,	0,	0,	0,	1,	5,	0,	0,  0,	3,	1,
-  1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,  1,	1,  1];
+[	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,  1,  1, 	1,
+  1,	2,	0,	0,	0,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,  0,	1,  1,
+  1,	1,	0,	0,	0,	0,	0,	0,	4,	0,	0,	0,	0,	0,	0,  0,	0,  1,
+  1,	1,	1,	1,	1,	1,	0,	1,	1,	1,	1,	0,	0,	0,	0,  1,	0,  1,
+  1,	0,	3,	0,	1,	1,	0,	1,	5,	0,	1,	4,	1,	0,	0,  1,	5,  1,
+  1,	0,	0,	0,	1,	5,	0,	1,	0,	0,	0,	0,	1,	1,	0,  1,	1,  1,
+  1,	0,	0,	0,	1,	1,	1,	1,	0,	0,	0,	0,	0,	1,	0,  0,	0,  1,
+  1,	0,	0,  0,	1,	5,	0,	0,	0,	0,	0,	0,	0,	1,	0,  5,	0,  1,
+  1,	0,	0,	0,	1,	1,	1,	1,	0,	0,	0,	0,	0,	1,	1,  1,	5,  1,
+  1,	1,	0,	0,	4,	4,	4,	4,	0,	0,	0,	0,	0,	1,	1,  1,	1,	1,
+  1,	1,	1,	0,	1,	1,	1,	1,	0,	0,	0,	1,	1,	1,	1,  1,	1,	1,
+  1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,  1,	1,  1];
 
   function isWallAtGridCoordinates(row, col) {
     var tileIndex = tileGridCoordinatesToIndex(row, col);
@@ -48,6 +46,10 @@ let roomGrid =
     return roomGrid[tileIndex];
   }
 
+  function tileTypeHasTransparency(tileType) {
+    return (tileType === TILE_CODE_KEY || tileType === TILE_CODE_CHEST || tileType === TILE_CODE_DOOR);
+  }
+
   function drawRoom()	{
     var tileIndex = 0;
     var tileX;
@@ -58,11 +60,10 @@ let roomGrid =
       tileX = 0.5*TILE_W;
       for (var j=0;	j<ROOM_COLS;	j++) {
         tileType = roomGrid[tileIndex];
-        if (tileType === TILE_CODE_KEY) {
-          drawImageCenteredAtLocationWithScalingAndBackground(tilePics[tileType], tilePics[TILE_CODE_GROUND], tileX,	tileY, TILE_W, TILE_H);
-        } else {
-          drawImageCenteredAtLocationWithScaling(tilePics[tileType], tileX,	tileY, TILE_W, TILE_H);
+        if (tileTypeHasTransparency(tileType)) {
+          drawImageCenteredAtLocationWithScaling(tilePics[TILE_CODE_GROUND], tileX,	tileY, TILE_W, TILE_H);
         }
+        drawImageCenteredAtLocationWithScaling(tilePics[tileType], tileX,	tileY, TILE_W, TILE_H);
 
         tileIndex++;
         
